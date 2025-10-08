@@ -12,12 +12,7 @@ const logArrayValues = (arr, type) => {
     });
 };
 
-console.log('logArrayValues([...anyArray, ...[6, \'true\', false]]);');
-logArrayValues([...[1, '2', true], ...[6, 'true', false]]);
-console.log('logArrayValues([...anyArray, ...[6, \'true\', false]], \'string\');');
-logArrayValues([...[3, '6', {}], ...[6, 'true', false]], 'string');
-console.log('logArrayValues([...anyArray, ...[6, \'true\', false]], true);');
-logArrayValues([...[false], ...[3, '6', {}], ...[6, 'true', false]], true);
+console.log(logArrayValues);
 
 const sum = (a, b) => a + b;
 console.log(sum(1, 2));

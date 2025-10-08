@@ -1,67 +1,24 @@
-function sumAny(a, b) {
-    return a + b;
-}
-
-const result = sumAny(1, 2);
-const result2 = sumAny(2, '2');
-console.log(result, result2);
-
-function logArrayValues(arr, type) {
+function sumArrayElements(arr) {
     if (!Array.isArray(arr)) {
-        return;
+        throw new Error('The input argument must be an array.');
     }
 
-    const resultingArray = type && typeof type === 'string' ? filterArrayByType(arr, type) : arr;
+    return arr.reduce((accumulator, current) => accumulator + current, 0);
+}
+console.log('-------------------------------');
+const numbers = [1, 2, 3, 4, 5];
+const total = sumArrayElements(numbers);
 
-    resultingArray.forEach(element => {
-        console.log(element);
-    });
+console.log(`Sum of array elements: ${total}`);
+
+const stringArray = ['Hello', 'World', 'JavaScript', 'example'];
+
+const numberArray = [10, 20, 30, 40];
+
+function processArrays(strings, numbers) {
+    const combinedArray = [...strings, ...numbers];
+    return combinedArray;
 }
 
-const arr1 = [1, 2, 3];
-const arr2 = ['1', '2', '3'];
-
-
-export function filterArrayByType(arr, type) {
-    return arr.filter(item => typeof item === type);
-}
-
-export const anyArray = [1, '2', true, {num: 4}];
-
-console.log(filterArrayByType(anyArray, 'string'));
-console.log(filterArrayByType(anyArray, 'boolean'));
-
-
-logArrayValues(arr1);
-logArrayValues(arr2);
-logArrayValues(1);
-console.log('logArrayValues([...anyArray, ...[6, \'true\', false]]);');
-logArrayValues([...anyArray, ...[6, 'true', false]]);
-console.log('logArrayValues([...anyArray, ...[6, \'true\', false]], \'string\');');
-logArrayValues([...anyArray, ...[6, 'true', false]], 'string');
-console.log('logArrayValues([...anyArray, ...[6, \'true\', false]], true);');
-logArrayValues([...anyArray, ...[6, 'true', false]], true);
-
-
-class SomeClass {
-    name;
-    surName = 'SurName';
-
-    constructor() {
-        this.name = 'SomeClass';
-    }
-
-    logInfo() {
-        console.log(this.name, this.surName);
-        console.log(this);
-    }
-
-    logAnotherInfo = () => {
-        console.log(this);
-    };
-}
-
-const obj = new SomeClass();
-obj.logInfo();
-console.log('-----------');
-obj.logAnotherInfo();
+const result = processArrays(stringArray, numberArray);
+console.log(result);
