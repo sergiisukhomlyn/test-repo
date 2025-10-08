@@ -1,4 +1,4 @@
-import { Fruit, Vegetable } from 'C:/Users/Sergei/sources/test-repo/lesson5/src/models/index.js';
+import { Fruit, Vegetable } from './models/index.js';
 
 const apple = {
     _name: 'apple macintosh',
@@ -24,7 +24,7 @@ const banana = new Fruit('banana', 'yellow', 8);
 console.log(banana.name);
 banana.name = 'mini-banana';
 console.log(banana.name);
-banana.color = 'red';
+banana.color = 'yellow';
 banana.logInfo();
 
 const carrot = new Vegetable('carrot', 'orange', 5);
