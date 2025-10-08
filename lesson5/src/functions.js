@@ -5,12 +5,12 @@ function sumArrayElements(arr) {
 
     return arr.reduce((accumulator, current) => accumulator + current, 0);
 }
-console.log('-------------------------------');
+
 const numbers = [1, 2, 3, 4, 5];
 const total = sumArrayElements(numbers);
 
 console.log(`Sum of array elements: ${total}`);
-
+console.log('-------------------------------');
 const stringArray = ['Hello', 'World', 'JavaScript', 'example'];
 
 const numberArray = [10, 20, 30, 40];
