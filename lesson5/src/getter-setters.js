@@ -24,7 +24,7 @@ const banana = new Fruit('banana', 'yellow', 8);
 console.log(banana.name);
 banana.name = 'mini-banana';
 console.log(banana.name);
-banana.color = 'yellow';
+banana.color = 'red';
 banana.logInfo();
 
 const carrot = new Vegetable('carrot', 'orange', 5);
