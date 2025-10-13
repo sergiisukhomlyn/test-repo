@@ -1,31 +1,17 @@
-import { filterArrayByType } from './functions';
-
-const logArrayValues = (arr: unknown[], type?: string): void => {
-    if (!Array.isArray(arr)) {
-        return;
-    }
-
-    const resultingArray = type && typeof type === 'string' ? filterArrayByType(arr, type) : arr;
-
-    resultingArray.forEach((element: any) => {
-        console.log(element);
-    });
+const sumArraysElements = <T extends number>(arr: T[]): number => {
+  return arr.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 };
 
-console.log(logArrayValues);
+const concatenateStringArray = (arr: string[]): string => {
+  return arr.reduce((accumulator, currentValue) => accumulator + currentValue, '');
+};
 
-const sum = (a: number, b: number): number => a + b;
-console.log(sum(1, 2));
+const numberArray1: number[] = [10, 20, 30, 40, 50];
 
-const extract = (a: number, b: number): number => a - b;
-function extract2(a: number, b: number): number {
-    return b - a;
-}
+const stringArray1: string[] = ['Hello', ' ', 'World', '!'];
 
-const numbers: number[] = [1, 8, 3, 4, 2];
-numbers.sort((a, b) => a - b);
-numbers.sort(extract);
-console.log(numbers);
+const numberResult = sumArraysElements(numberArray1);
+console.log('Sum of number array elements:', numberResult);
 
-numbers.sort(extract2);
-console.log(numbers);
+const stringResult = concatenateStringArray(stringArray1);
+console.log('Concatenated string array elements:', stringResult);
