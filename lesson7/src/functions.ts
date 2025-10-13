@@ -1,24 +1,26 @@
-function sumArrayElements(arr: number[]): number {
-    if (!Array.isArray(arr)) {
-        throw new Error('The input argument must be an array.');
+function sumArrayElements(arr: (number | string)[]): number {
+  let sum: number = 0;
+  for (const element of arr) {
+    if (typeof element === 'number') {
+      sum += element;
+    } else if (typeof element === 'string') {
+      const num = parseFloat(element);
+      if (!isNaN(num)) {
+        sum += num;
+      } else {
+        console.warn(`Warning: Could not convert string '${element}' to a number for addition.`);
+      }
     }
-
-    return arr.reduce((accumulator, current) => accumulator + current, 0);
+  }
+  return sum;
 }
 
-const numbers: number[] = [1, 2, 3, 4, 5];
-const total: number = sumArrayElements(numbers);
+const stringArray: string[] = ['10', '20', '30', 'abc'];
 
-console.log(`Sum of array elements: ${total}`);
-console.log('-------------------------------');
+const numberArray: number[] = [1, 2, 3, 4, 5];
 
-const stringArray: string[] = ['Hello', 'World', 'JavaScript', 'example'];
-const numberArray: number[] = [10, 20, 30, 40];
+const stringArraySum = sumArrayElements(stringArray);
+console.log('Sum of string array elements:', stringArraySum);
 
-function processArrays(strings: string[], numbers: number[]): (string | number)[] {
-    const combinedArray: (string | number)[] = [...strings, ...numbers];
-    return combinedArray;
-}
-
-const result: (string | number)[] = processArrays(stringArray, numberArray);
-console.log(result);
+const numberArraySum = sumArrayElements(numberArray);
+console.log('Sum of number array elements:', numberArraySum);
