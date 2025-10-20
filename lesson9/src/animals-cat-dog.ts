@@ -2,35 +2,33 @@ interface ISoundable {
     makeSound(): void;
 }
 
-interface ISoundStrategy extends ISoundable {}
-
 interface IAnimalIdentity {
     name: string;
 }
 
-class DogSoundStrategy implements ISoundStrategy {
-    makeSound(): void {
+class DogSoundStrategy implements ISoundable {
+    public makeSound(): void {
         console.log('Woof-Woof');
     }
 }
 
-class CatSoundStrategy implements ISoundStrategy {
-    makeSound(): void {
+class CatSoundStrategy implements ISoundable {
+    public makeSound(): void {
         console.log('Miaw');
     }
 }
 
-class BirdSoundStrategy implements ISoundStrategy {
-    makeSound(): void {
+class BirdSoundStrategy implements ISoundable {
+    public makeSound(): void {
         console.log('Tweet-Tweet');
     }
 }
 
 abstract class Animal implements IAnimalIdentity, ISoundable {
     public name: string;
-    protected soundStrategy: ISoundStrategy;
+    protected soundStrategy: ISoundable; // Changed to ISoundable, not ISoundStrategy
 
-    constructor(name: string, soundStrategy: ISoundStrategy) {
+    public constructor(name: string, soundStrategy: ISoundable) {
         this.name = name;
         this.soundStrategy = soundStrategy;
     }
@@ -42,19 +40,19 @@ abstract class Animal implements IAnimalIdentity, ISoundable {
 }
 
 class Dog extends Animal {
-    constructor(name: string) {
+    public constructor(name: string) {
         super(name, new DogSoundStrategy());
     }
 }
 
 class Cat extends Animal {
-    constructor(name: string) {
+    public constructor(name: string) {
         super(name, new CatSoundStrategy());
     }
 }
 
 class Bird extends Animal {
-    constructor(name: string) {
+    public constructor(name: string) {
         super(name, new BirdSoundStrategy());
     }
 }
