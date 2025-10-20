@@ -26,7 +26,7 @@ class BirdSoundStrategy implements ISoundable {
 
 abstract class Animal implements IAnimalIdentity, ISoundable {
     public name: string;
-    protected soundStrategy: ISoundable; // Changed to ISoundable, not ISoundStrategy
+    protected soundStrategy: ISoundable;
 
     public constructor(name: string, soundStrategy: ISoundable) {
         this.name = name;
