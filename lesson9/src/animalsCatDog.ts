@@ -1,40 +1,73 @@
-interface Animal {
-    name: string;
+interface ISoundable {
     makeSound(): void;
 }
 
-class Dog implements Animal {
+interface ISoundStrategy extends ISoundable {}
+
+interface IAnimalIdentity {
     name: string;
+}
 
-    constructor(name: string) {
-        this.name = name;
-    }
-
+class DogSoundStrategy implements ISoundStrategy {
     makeSound(): void {
-        console.log(`${this.name} says: Woof-Woof`);
+        console.log('Woof-Woof');
     }
 }
 
-class Cat implements Animal {
-    name: string;
-
-    constructor(name: string) {
-        this.name = name;
-    }
-
+class CatSoundStrategy implements ISoundStrategy {
     makeSound(): void {
-        console.log(`${this.name} says: Miaw`);
+        console.log('Miaw');
     }
 }
 
-function interactWithAnimal(animal: Animal): void {
-    console.log(`Interaction with animal ${animal.name}`);
+class BirdSoundStrategy implements ISoundStrategy {
+    makeSound(): void {
+        console.log('Tweet-Tweet');
+    }
+}
+
+abstract class Animal implements IAnimalIdentity, ISoundable {
+    public name: string;
+    protected soundStrategy: ISoundStrategy;
+
+    constructor(name: string, soundStrategy: ISoundStrategy) {
+        this.name = name;
+        this.soundStrategy = soundStrategy;
+    }
+
+    public makeSound(): void {
+        console.log(`${this.name} says:`);
+        this.soundStrategy.makeSound();
+    }
+}
+
+class Dog extends Animal {
+    constructor(name: string) {
+        super(name, new DogSoundStrategy());
+    }
+}
+
+class Cat extends Animal {
+    constructor(name: string) {
+        super(name, new CatSoundStrategy());
+    }
+}
+
+class Bird extends Animal {
+    constructor(name: string) {
+        super(name, new BirdSoundStrategy());
+    }
+}
+
+function interactWithAnimal(animal: IAnimalIdentity & ISoundable): void {
+    console.log(`\n--- Interaction with animal: ${animal.name} ---`);
     animal.makeSound();
 }
 
 const dog = new Dog('Puppy');
 const cat = new Cat('Kitty');
+const bird = new Bird('Tweety');
 
 interactWithAnimal(dog);
-
 interactWithAnimal(cat);
+interactWithAnimal(bird);
