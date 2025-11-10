@@ -1,0 +1,61 @@
+1: Пошук товару
+
+a. input[name="search"] - вводимо текст "ноутбук"
+
+b. button.button_color_green - натискаємо кнопку пошуку
+
+c. //span[contains(@class, "goods-tile__title")] - очікуємо появи списку товарів
+
+d. //span[contains(@class, "goods-tile__title")][1] - клацаємо по першому знайденому товару
+
+e. h1.product__title - перевіряємо, що заголовок картки містить слово "ноутбук"
+
+
+2: Додавання товару до кошику
+
+a. input[name="search"] - вводимо "смартфон"
+
+b. button.button_color_green — натискаємо пошук
+
+c. //button[contains(@class, "buy-button")] - клацаємо по кнопці "Купити" у першого товару
+
+d. //rz-cart/button[contains(@class,"header__button--active")] — очікуємо, що іконка кошика активується
+
+e. a.header__button - active - клацаємо по кошику і перевіряємо, що обраний товар відображається в списку
+
+
+3: Фільтрування товарів
+
+a. input[min="0"] - вводимо "5000" у поле мінімальної ціни
+
+b. input[max] - вводимо "15000" у поле максимальної ціни
+
+c. button.slider-filter__button - натискаємо "ОК" для застосування фільтра
+
+d. //span[contains(@class, "goods-tile__price-value")] - очікуємо оновлення списку товарів
+
+
+4: Авторизація
+
+a. button.header__button--user — клацаємо по іконці користувача
+
+b. input[name="login"] - вводимо email: testuser@mail.com
+
+c. input[name="password"] - вводимо пароль: Test1234
+
+d. button.auth-modal__submit - натискаємо "Увійти"
+
+e. //div[contains(@class,"cabinet-menu__user-name")] - перевіряємо, що відображається ім'я користувача
+
+
+5: Перевірка переходу до категорії
+
+a. a.menu-categories__link[href*="computers-notebooks"] — клацаємо "Ноутбуки та комп'ютери"
+
+b. a.portal-grid__cell[href*="notebooks"] - вибираємо "Ноутбуки"
+
+c. h1.portal__heading - очікуємо заголовок "Ноутбуки"
+
+d. //span[contains(@class, "goods-tile__title")] - перевіряємо, що на сторінці є товари
+
+e. //a[contains(@class, "breadcrumbs__link") and text()="Головна"] - переконуємося, що хлібні крихти коректно відображаються
