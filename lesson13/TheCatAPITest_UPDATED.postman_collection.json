@@ -1,0 +1,494 @@
+{
+  "info": {
+    "_postman_id": "b81d5bf6-8271-4bee-b69b-91597b821eba",
+    "name": "TheCatAPITest",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "28575987"
+  },
+  "item": [
+    {
+      "name": "200 OK test",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "\r",
+              "pm.test(\"Response has image\", () => {\r",
+              "    const json = pm.response.json();\r",
+              "    pm.expect(json).to.be.an('array').that.is.not.empty;\r",
+              "    pm.expect(json[0]).to.have.property('id');\r",
+              "    pm.environment.set(\"image_id\", json[0].id);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/images/search?limit=1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "images",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add image",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 201\", () => {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+              "});\r",
+              "\r",
+              "const json = pm.response.json();\r",
+              "pm.expect(json).to.have.property('id');\r",
+              "pm.environment.set(\"favourite_id\", json.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const favourite_id = pm.environment.get(\"favourite_id\");\r",
+              "if (favourite_id) {\r",
+              "    pm.sendRequest({\r",
+              "        url: `https://api.thecatapi.com/v1/favourites/${favourite_id}`,\r",
+              "        method: 'DELETE',\r",
+              "        header: {\r",
+              "            'x-api-key': pm.environment.get(\"api_key\")\r",
+              "        }\r",
+              "    }, function (err, res) {\r",
+              "        console.log(\"Deleted old favourite:\", favourite_id);\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"image_id\": \"{{image_id}}\",\r\n  \"sub_id\": \"test_user_{{$timestamp}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/favourites",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "favourites"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Image is in list",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "const json = pm.response.json();\r",
+              "console.log(json);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"image_id\": \"{{image_id}}\",\r\n  \"sub_id\": \"{{sub_id}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/favourites?sub_id={{sub_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "favourites"
+          ],
+          "query": [
+            {
+              "key": "sub_id",
+              "value": "{{sub_id}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Vote for image",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 201\", () => pm.expect(pm.response.code).to.be.oneOf([200,201]));\r",
+              "const json = pm.response.json();\r",
+              "pm.expect(json).to.have.property('id');\r",
+              "pm.environment.set(\"vote_id\", json.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"image_id\": \"{{image_id}}\",\r\n  \"sub_id\": \"test_user\",\r\n  \"value\": 1\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/votes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "votes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Vote is registered",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+              "const json = pm.response.json();\r",
+              "const ids = json.map(v => v.image_id);\r",
+              "pm.expect(ids).to.include(pm.environment.get(\"image_id\"));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/votes?sub_id=test_user",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "votes"
+          ],
+          "query": [
+            {
+              "key": "sub_id",
+              "value": "test_user"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete vote",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Vote deleted successfully\", () => pm.expect(pm.response.code).to.be.oneOf([200,204]));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/votes/{{vote_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "votes",
+            "{{vote_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get vote by ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));",
+              "const json = pm.response.json();",
+              "pm.expect(json).to.have.property('id', parseInt(pm.environment.get('vote_id')));",
+              "pm.expect(json).to.have.property('image_id', pm.environment.get('image_id'));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/votes/{{vote_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "votes",
+            "{{vote_id}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get favourite by ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));",
+              "const json = pm.response.json();",
+              "pm.expect(json).to.have.property('id', parseInt(pm.environment.get('favourite_id')));",
+              "pm.expect(json.image).to.have.property('id', pm.environment.get('image_id'));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/favourites/{{favourite_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "favourites",
+            "{{favourite_id}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Vote value is correct",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));",
+              "const json = pm.response.json();",
+              "const vote = json.find(v => v.id === parseInt(pm.environment.get('vote_id')));",
+              "pm.expect(vote.value).to.eql(1);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/votes?sub_id=test_user",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "votes"
+          ],
+          "query": [
+            {
+              "key": "sub_id",
+              "value": "test_user"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Add non-existent image to favourites",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400 or 404\", () => pm.expect(pm.response.code).to.be.oneOf([400,404]));",
+              "const json = pm.response.json();",
+              "pm.expect(json.message || json.error).to.be.a('string');"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\\n  \\\"image_id\\\": \\\"nonexistent12345\\\",\\n  \\\"sub_id\\\": \\\"test_user_invalid\\\"\\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/favourites",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "favourites"
+          ]
+        }
+      }
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "value",
+        "value": "{{api_key}}",
+        "type": "string"
+      },
+      {
+        "key": "key",
+        "value": "x-api-key",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    },
+    {
+      "key": "api_key",
+      "value": ""
+    },
+    {
+      "key": "image_id",
+      "value": ""
+    },
+    {
+      "key": "vote_id",
+      "value": ""
+    },
+    {
+      "key": "favourite_id",
+      "value": ""
+    },
+    {
+      "key": "sub_id",
+      "value": ""
+    }
+  ]
+}
