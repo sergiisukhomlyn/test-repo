@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "stop-nodemon",
+      "type": "shell",
+      "command": "pkill -f nodemon || exit 0",
+      "problemMatcher": []
+    }
+  ]
+}
