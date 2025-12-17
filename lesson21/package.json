@@ -1,0 +1,43 @@
+{
+  "name": "lesson21rozetka-ui-tests",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "directories": {
+    "test": "cucumber-js --config cucumber.mjs"
+  },
+  "scripts": {
+  "test": "cucumber-js --config cucumber.cjs --profile local",
+  "test:ci": "cucumber-js --config cucumber.cjs --profile ci",
+  "report": "node scripts/generate-report.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@playwright/test": "^1.57.0",
+    "@stylistic/eslint-plugin": "^5.6.1",
+    "@stylistic/eslint-plugin-ts": "^4.4.1",
+    "@types/node": "^25.0.2",
+    "allure-commandline": "^2.36.0",
+    "allure-cucumberjs": "^3.4.3",
+    "allure-playwright": "^3.4.3",
+    "eslint": "^9.39.2",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-unicorn": "^62.0.0",
+    "globals": "^16.5.0",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.1.0",
+    "mochawesome-report-generator": "^6.3.2",
+    "prettier": "^3.7.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.50.0"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^12.4.0",
+    "@cucumber/pretty-formatter": "^2.4.1",
+    "playwright": "^1.57.0"
+  }
+}
